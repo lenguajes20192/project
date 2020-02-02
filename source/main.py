@@ -5,7 +5,7 @@ from myListener import myListener
 
 
 def init():
-    file_path = "2.txt"
+    file_path = "while.txt"
 
     lexer = RubyLexer(FileStream(file_path))
 
