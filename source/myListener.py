@@ -10,7 +10,7 @@ a = turtle.Turtle()
 a.pensize(2)
 x_start = a.pos()[0]
 y_start = a.pos()[1]
-a.speed(3)
+a.speed(6)
 first_time = True;
 
 
@@ -20,6 +20,13 @@ class myListener(RubyListener):
         a.right(90)
 
     def exitProg(self, ctx:RubyParser.ProgContext):
+        a.forward(40)
+        a.right(90)
+        a.fillcolor('blue')
+        a.begin_fill()
+        a.circle(30)
+        a.end_fill()
+        a.left(90)
         a.hideturtle()
         turtle.done
 
@@ -35,7 +42,9 @@ class myListener(RubyListener):
             a.rt(90)
         first_time = False
 
-    #def enterExpression_list(self, ctx: RubyParser.Expression_listContext):
+    #def exitExpression_list(self, ctx: RubyParser.Expression_listContext):
+
+
     def enterExpression(self, ctx:RubyParser.ExpressionContext):
         global first_time
         a.forward(40)
@@ -102,5 +111,5 @@ def diamond(ctx):
     a.left(105)
     penSetting(a.pos()[0], a.pos()[1] - 30)
     a.color("black")
-    a.write(ctx.getText(), move=False, align='center', font=("Arial", 9, "bold"))
+    a.write(ctx.getText() + "?", move=False, align='center', font=("Arial", 9, "bold"))
     penSetting(a.pos()[0], a.pos()[1] - 22)
