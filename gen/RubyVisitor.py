@@ -1,4 +1,4 @@
-# Generated from C:/Users/jhons/PycharmProjects/project/grammar\Ruby.g4 by ANTLR 4.8
+# Generated from C:/Users/User/Documents/project/grammar\Ruby.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .RubyParser import RubyParser
