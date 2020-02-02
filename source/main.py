@@ -5,7 +5,7 @@ from myListener import myListener
 
 
 def init():
-    file_path = "1.txt"
+    file_path = "2.txt"
 
     lexer = RubyLexer(FileStream(file_path))
 

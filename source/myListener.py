@@ -10,14 +10,25 @@ a = turtle.Turtle()
 a.pensize(2)
 x_start = a.pos()[0]
 y_start = a.pos()[1]
-a.speed(6)
+a.speed(0)
 first_time = True;
+
+xc_diamond = 0
+yc_diamond = 0
 
 
 class myListener(RubyListener):
 
     def enterProg(self, ctx:RubyParser.ProgContext):
-        a.right(90)
+
+        global first_time
+        if first_time:
+            a.fillcolor('blue')
+            a.begin_fill()
+            a.circle(40)
+            a.end_fill()
+            a.rt(90)
+        first_time = False
 
     def exitProg(self, ctx:RubyParser.ProgContext):
         a.forward(40)
@@ -28,29 +39,19 @@ class myListener(RubyListener):
         a.end_fill()
         a.left(90)
         a.hideturtle()
-        turtle.done
+        turtle.getscreen()._root.mainloop()
 
-    def enterExpression_list(self, ctx: RubyParser.Expression_listContext):
+    #def enterExpression_list(self, ctx: RubyParser.Expression_listContext):
 
-        global first_time
-        a.right(135)
-        if not first_time:
-            a.fillcolor('blue')
-            a.begin_fill()
-            a.circle(40)
-            a.end_fill()
-            a.rt(90)
-        first_time = False
+
 
     #def exitExpression_list(self, ctx: RubyParser.Expression_listContext):
 
 
-    def enterExpression(self, ctx:RubyParser.ExpressionContext):
-        global first_time
+    #def enterExpression(self, ctx:RubyParser.ExpressionContext):
+    def enterInt_assignment(self, ctx: RubyParser.Int_assignmentContext):
         a.forward(40)
-        if not first_time:
-            rectangle(ctx)
-        first_time = False
+        rectangle(ctx)
     #def exitExpression(self, ctx:RubyParser.ExpressionContext):
     
     #def enterIf_statement(self, ctx:RubyParser.If_statementContext):
@@ -64,6 +65,21 @@ class myListener(RubyListener):
         a.forward(40)
         diamond(ctx)
     #def exitIfStatement(self, ctx:RubyParser.If_statementContext):
+
+    def enterCond_expression(self, ctx:RubyParser.Cond_expressionContext):
+        diamond(ctx)
+
+    def exitWhile_statement(self, ctx: RubyParser.While_statementContext):
+        a.forward(40)
+        a.right(90)
+        a.forward(a.pos()[0] - xc_diamond + 40)
+        a.right(90)
+        a.forward(yc_diamond - a.pos()[1])
+        a.right(90)
+        a.forward(40)
+        penSetting(a.pos()[0] + 194, a.pos()[1])
+        a.forward(40)
+        a.right(90)
 
 # functions for drawing
 
@@ -81,7 +97,7 @@ def penSetting(X_coordinate,Y_coordinate):
     return None
 def rectangle(ctx):
     a.color('blue')
-    lar = len(ctx.getText()) * 5 + 5
+    lar = len(ctx.getText()) * 9 + 5
     a.right(90)
     a.forward(lar / 2)
     a.left(90)
@@ -99,9 +115,13 @@ def rectangle(ctx):
     penSetting(a.pos()[0], a.pos()[1] - 20)
 
 def diamond(ctx):
+    global xc_diamond, yc_diamond
+    a.forward(40)
     a.color("red")
     a.right(75)
     a.forward(100)
+    xc_diamond = a.pos()[0]
+    yc_diamond = a.pos()[1]
     a.left(150)
     a.forward(100)
     a.left(30)
