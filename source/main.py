@@ -1,15 +1,19 @@
 from antlr4 import *
-from Java8Parser import Java8Parser
-from Java8Lexer import Java8Lexer
+from RubyParser import RubyParser
+from RubyLexer import RubyLexer
+from myListener import myListener
 
 
 def init():
-    file_path: "input.txt"
+    file_path = "1.txt"
 
-    lexer = Java8Lexer(FileStream(file_path))
+    lexer = RubyLexer(FileStream(file_path))
 
     tokens = CommonTokenStream(lexer)
-    parser = Java8Parser(tokens)
-    tree = parser.literal()
+    parser = RubyParser(tokens)
+    tree = parser.prog()
     walker = ParseTreeWalker()
+    walker.walk(myListener(), tree)
+
+init()
 
