@@ -1,13 +1,13 @@
 import turtle
+
+import numpy as np
 from antlr4 import *
 from RubyParser import RubyParser
 from RubyLexer import RubyLexer
 from RubyListener import RubyListener
-import numpy as np
 
-text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt"])
-text = text_arr[3]
-
+text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt", "2.txt"])
+text = text_arr[4]
 
 window = turtle.Screen()
 window.screensize(60000, 60000)
@@ -15,8 +15,9 @@ a = turtle.Turtle()
 a.pensize(2)
 x_start = a.pos()[0]
 y_start = a.pos()[1]
-a.speed(5)
+a.speed(2)
 first_time = True;
+contextEnterLoop = ""
 
 xc_diamond = 0
 yc_diamond = 0
@@ -24,6 +25,7 @@ xc_end = 0
 yc_end = 0
 coor_end = np.array([[0, 0]])
 while_statement = False
+for_int_assignment = False
 
 
 class myListener(RubyListener):
@@ -73,14 +75,12 @@ class myListener(RubyListener):
         a.hideturtle()
         turtle.getscreen()._root.mainloop()
 
-    # def enterExpression_list(self, ctx: RubyParser.Expression_listContext):
-
-    # def exitExpression_list(self, ctx: RubyParser.Expression_listContext):
-
-    # def enterExpression(self, ctx:RubyParser.ExpressionContext):
     def enterInt_assignment(self, ctx: RubyParser.Int_assignmentContext):
-        a.forward(40)
-        rectangle(ctx)
+        global for_int_assignment
+        if not for_int_assignment:
+            a.forward(40)
+            rectangle(ctx)
+        for_int_assignment = False
 
     def enterDynamic_assignment(self, ctx: RubyParser.Dynamic_assignmentContext):
         a.forward(40)
@@ -123,15 +123,21 @@ class myListener(RubyListener):
         # a.forward(40)
         rectangle(ctx)
 
-    #def enterDynamic_result(self, ctx: RubyParser.Dynamic_resultContext):
     def enterArray_selector(self, ctx: RubyParser.Array_selectorContext):
         rectangle(ctx)
+        a.forward(40)
+        rectangle(contextEnterLoop)
 
     def exitStatement_expression_list(self, ctx: RubyParser.Statement_expression_listContext):
         global coor_end, while_statement
         if not while_statement:
             coor_end = np.append(coor_end, [[a.pos()[0], a.pos()[1]]], axis=0)
         print(coor_end)
+
+    def enterLoop_expression(self, ctx: RubyParser.Loop_expressionContext):
+        global contextEnterLoop
+        contextEnterLoop = ctx
+        print('el del loop expresion')
 
     def exitWhile_statement(self, ctx: RubyParser.While_statementContext):
         a.forward(40)
@@ -148,6 +154,25 @@ class myListener(RubyListener):
     def enterWhile_statement(self, ctx: RubyParser.While_statementContext):
         global while_statement
         while_statement = True
+
+    def enterFor_loop_list(self, ctx: RubyParser.For_loop_listContext):
+        global for_int_assignment
+        for_int_assignment = True
+
+    def exitFor_statement(self, ctx: RubyParser.For_statementContext):
+        a.forward(40)
+        a.right(90)
+        a.forward(a.pos()[0] - xc_diamond + 40)
+        a.right(90)
+        a.forward(yc_diamond - a.pos()[1])
+        a.right(90)
+        a.forward(40)
+        penSetting(a.pos()[0] + 194, a.pos()[1])
+        a.forward(100)
+        a.color('red')
+        a.write('False', move=False, align='center', font=("Arial", 9, "bold"))
+        a.color('black')
+        a.right(90)
 
 
 # functions for drawing
@@ -217,7 +242,7 @@ def code():
 
     a.left(180)
     a.color('black')
-    penSetting(a.pos()[0] + 500, a.pos()[1] + 100)
+    penSetting(a.pos()[0] + 500, 0)
 
 
 def diamond(ctx):
