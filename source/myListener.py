@@ -3,6 +3,11 @@ from antlr4 import *
 from RubyParser import RubyParser
 from RubyLexer import RubyLexer
 from RubyListener import RubyListener
+import numpy as np
+
+text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt"])
+text = text_arr[2]
+
 
 window = turtle.Screen()
 window.screensize(60000, 60000)
@@ -10,33 +15,61 @@ a = turtle.Turtle()
 a.pensize(2)
 x_start = a.pos()[0]
 y_start = a.pos()[1]
-a.speed(3)
+a.speed(5)
 first_time = True;
 
 xc_diamond = 0
 yc_diamond = 0
+xc_end = 0
+yc_end = 0
+coor_end = np.array([[0, 0]])
+while_statement = False
 
 
 class myListener(RubyListener):
 
     def enterProg(self, ctx: RubyParser.ProgContext):
+        code()
         global first_time
         if first_time:
             a.fillcolor('blue')
             a.begin_fill()
             a.circle(40)
             a.end_fill()
+            a.color('white')
+            penSetting(a.pos()[0], a.pos()[1] + 30)
+            a.write('START', move=False, align='center', font=("Arial", 9, "bold"))
+            penSetting(a.pos()[0], a.pos()[1] - 30)
+            a.color('black')
             a.rt(90)
         first_time = False
 
     def exitProg(self, ctx: RubyParser.ProgContext):
-        a.forward(40)
+        global coor_end
+        a.forward(120)
         a.right(90)
-        a.fillcolor('blue')
+        a.fillcolor('midnight blue')
         a.begin_fill()
         a.circle(30)
         a.end_fill()
+        a.color('white')
+        penSetting(a.pos()[0], a.pos()[1] - 35)
+        a.write('END', move=False, align='center', font=("Arial", 9, "bold"))
+        penSetting(a.pos()[0], a.pos()[1] + 35)
+        a.color('black')
         a.left(90)
+        global xc_end, yc_end
+        xc_end = a.pos()[0]
+        yc_end = a.pos()[1] + 20
+
+        if len(coor_end) > 1:
+            for i in range(1, len(coor_end) - 1):
+                penSetting(coor_end[i][0], coor_end[i][1])
+                a.forward(abs(yc_end) - abs(a.pos()[1]))
+                a.left(90)
+                a.forward(abs(xc_end) - abs(a.pos()[0]))
+                a.right(90)
+
         a.hideturtle()
         turtle.getscreen()._root.mainloop()
 
@@ -83,8 +116,14 @@ class myListener(RubyListener):
         print('este')
 
     def enterString_result(self, ctx: RubyParser.String_resultContext):
-        #a.forward(40)
+        # a.forward(40)
         rectangle(ctx)
+
+    def exitStatement_expression_list(self, ctx: RubyParser.Statement_expression_listContext):
+        global coor_end, while_statement
+        if not while_statement:
+            coor_end = np.append(coor_end, [[a.pos()[0], a.pos()[1]]], axis=0)
+        print(coor_end)
 
     def exitWhile_statement(self, ctx: RubyParser.While_statementContext):
         a.forward(40)
@@ -97,6 +136,10 @@ class myListener(RubyListener):
         penSetting(a.pos()[0] + 194, a.pos()[1])
         a.forward(100)
         a.right(90)
+
+    def enterWhile_statement(self, ctx: RubyParser.While_statementContext):
+        global while_statement
+        while_statement = True
 
 
 # functions for drawing
@@ -136,6 +179,37 @@ def rectangle(ctx):
     penSetting(a.pos()[0], a.pos()[1] - 25)
     a.write(ctx.getText(), move=False, align='center', font=("Arial", 9, "bold"))
     penSetting(a.pos()[0], a.pos()[1] - 15)
+
+
+def code():
+    penSetting(a.pos()[0] - 500, a.pos()[1])
+    a.fillcolor('black')
+    a.begin_fill()
+    a.right(90)
+    a.forward(300)
+    a.left(90)
+    a.forward(300)
+    a.left(90)
+    a.forward(300)
+    a.left(90)
+    a.forward(300)
+    a.end_fill()
+
+    a.color('white')
+    penSetting(a.pos()[0] + 20, a.pos()[1] - 40)
+
+    file = open(text, "r")
+    lines = file.readlines()
+    len_lines = len(lines)
+    print(len_lines)
+    for i in range(0, len_lines):
+        print(lines[i])
+        a.write(lines[i], font=("Arial", 9, "bold"))
+        penSetting(a.pos()[0], a.pos()[1] - 20)
+
+    a.left(180)
+    a.color('black')
+    penSetting(a.pos()[0] + 500, a.pos()[1] + 100)
 
 
 def diamond(ctx):

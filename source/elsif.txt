@@ -1,8 +1,8 @@
 stock = 5
 if stock < 1
-  puts "Sorry we are out of stock!"
+    puts "Sorry we are out of stock!"
 elsif stock == 10
-  puts "You get a special discount!"
+    puts "You get a special discount!"
 else
-  puts "Thanks for your order!"
+    puts "Thanks for your order!"
 end
