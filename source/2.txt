@@ -1,14 +1,13 @@
-i=10
 for i = 0; i<10; i+=1
     if i==3
-        break
+        puts "i es 3"
     end
     a = 10
     while a > 0
     	puts "hahaha"
-            if a==2
- 			    break
-            end
+        if a==2
+            puts "a es 2"
+        end
         a -= 1
     end
 end
