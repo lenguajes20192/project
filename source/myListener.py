@@ -5,8 +5,8 @@ from RubyLexer import RubyLexer
 from RubyListener import RubyListener
 import numpy as np
 
-text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt"])
-text = text_arr[2]
+text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt"])
+text = text_arr[3]
 
 
 window = turtle.Screen()
@@ -82,6 +82,10 @@ class myListener(RubyListener):
         a.forward(40)
         rectangle(ctx)
 
+    def enterDynamic_assignment(self, ctx: RubyParser.Dynamic_assignmentContext):
+        a.forward(40)
+        rectangle(ctx)
+
     # def exitExpression(self, ctx:RubyParser.ExpressionContext):
 
     # def enterIf_statement(self, ctx:RubyParser.If_statementContext):
@@ -117,6 +121,10 @@ class myListener(RubyListener):
 
     def enterString_result(self, ctx: RubyParser.String_resultContext):
         # a.forward(40)
+        rectangle(ctx)
+
+    #def enterDynamic_result(self, ctx: RubyParser.Dynamic_resultContext):
+    def enterArray_selector(self, ctx: RubyParser.Array_selectorContext):
         rectangle(ctx)
 
     def exitStatement_expression_list(self, ctx: RubyParser.Statement_expression_listContext):

@@ -6,8 +6,8 @@ from myListener import myListener
 
 
 def init():
-    text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt"])
-    file_path = text_arr[2]
+    text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt"])
+    file_path = text_arr[3]
 
 
     lexer = RubyLexer(FileStream(file_path))
