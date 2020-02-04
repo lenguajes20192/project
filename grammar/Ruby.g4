@@ -96,7 +96,7 @@ unless_statement : UNLESS cond_expression crlf statement_body END
                  | UNLESS cond_expression crlf statement_body elsif_statement END
                  ;
 
-while_statement : WHILE cond_expression crlf statement_body END;
+while_statement : WHILE cond_expression DO crlf statement_body END;
 
 for_statement : FOR LEFT_RBRACKET init_expression SEMICOLON cond_expression SEMICOLON loop_expression RIGHT_RBRACKET crlf statement_body END
               | FOR init_expression SEMICOLON cond_expression SEMICOLON loop_expression crlf statement_body END
@@ -324,6 +324,7 @@ WHILE : 'while';
 RETRY : 'retry';
 BREAK : 'break';
 FOR : 'for';
+DO : 'do';
 
 TRUE : 'true';
 FALSE : 'false';

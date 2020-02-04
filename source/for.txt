@@ -1,0 +1,8 @@
+mas = []
+mas[0] = 0
+mas[1] = 1
+mas[2] = 2
+
+for(i = 0; i < len(mas); i+=1)
+    puts mas[i]
+end

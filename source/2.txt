@@ -1,0 +1,11 @@
+sum = 0
+a = 10
+if a <= 20
+    for(i = 0; i < 10; i+=1)
+        sum+=i
+    end
+else
+    puts "el numero es mayor a 20"
+end
+
+
