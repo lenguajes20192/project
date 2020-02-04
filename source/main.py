@@ -6,7 +6,7 @@ from myListener import myListener
 
 
 def init():
-    text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt", "2.txt"])
+    text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt"])
     file_path = text_arr[0]
 
 

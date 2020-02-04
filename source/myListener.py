@@ -6,7 +6,7 @@ from RubyParser import RubyParser
 from RubyLexer import RubyLexer
 from RubyListener import RubyListener
 
-text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt", "2.txt"])
+text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt"])
 text = text_arr[0]
 
 window = turtle.Screen()
