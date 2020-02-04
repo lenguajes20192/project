@@ -1,4 +1,8 @@
-length = len(mas)
-for(i = 0; i < length; i+=1)
-    p mas[i]
+mas = []
+mas[0] = 0
+mas[1] = 1
+mas[2] = 2
+
+for(i = 0; i < len(mas); i+=1)
+    puts mas[i]
 end

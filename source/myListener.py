@@ -7,7 +7,7 @@ from RubyLexer import RubyLexer
 from RubyListener import RubyListener
 
 text_arr = np.array(["elsif.txt", "ifelseif.txt", "while.txt", "for.txt", "2.txt"])
-text = text_arr[4]
+text = text_arr[0]
 
 window = turtle.Screen()
 window.screensize(60000, 60000)
@@ -82,9 +82,19 @@ class myListener(RubyListener):
             rectangle(ctx)
         for_int_assignment = False
 
-    def enterDynamic_assignment(self, ctx: RubyParser.Dynamic_assignmentContext):
+    def enterInitial_array_assignment(self, ctx: RubyParser.Initial_array_assignmentContext):
         a.forward(40)
         rectangle(ctx)
+
+    def enterArray_assignment(self, ctx: RubyParser.Array_assignmentContext):
+        a.forward(40)
+        rectangle(ctx)
+
+    #def enterDynamic_assignment(self, ctx: RubyParser.Dynamic_assignmentContext):
+     #   a.forward(40)
+      #  rectangle(ctx)
+
+
 
     # def exitExpression(self, ctx:RubyParser.ExpressionContext):
 
@@ -111,7 +121,7 @@ class myListener(RubyListener):
         a.forward(40)
 
     def enterCond_expression(self, ctx: RubyParser.Cond_expressionContext):
-        a.forward(40)
+        #a.forward(40)
         diamond(ctx)
 
     def enterCond_expression(self, ctx: RubyParser.Cond_expressionContext):
@@ -123,10 +133,9 @@ class myListener(RubyListener):
         # a.forward(40)
         rectangle(ctx)
 
-    def enterArray_selector(self, ctx: RubyParser.Array_selectorContext):
-        rectangle(ctx)
-        a.forward(40)
-        rectangle(contextEnterLoop)
+    #def enterDynamic_result(self, ctx: RubyParser.Dynamic_resultContext):
+    #def enterArray_selector(self, ctx: RubyParser.Array_selectorContext):
+        #rectangle(ctx)
 
     def exitStatement_expression_list(self, ctx: RubyParser.Statement_expression_listContext):
         global coor_end, while_statement
@@ -138,6 +147,8 @@ class myListener(RubyListener):
         global contextEnterLoop
         contextEnterLoop = ctx
         print('el del loop expresion')
+        print('contextloop')
+        print(contextEnterLoop.getText())
 
     def exitWhile_statement(self, ctx: RubyParser.While_statementContext):
         a.forward(40)
@@ -160,6 +171,10 @@ class myListener(RubyListener):
         for_int_assignment = True
 
     def exitFor_statement(self, ctx: RubyParser.For_statementContext):
+        a.forward(40)
+        print('contex rec')
+        rectangle(contextEnterLoop)
+
         a.forward(40)
         a.right(90)
         a.forward(a.pos()[0] - xc_diamond + 40)
@@ -215,26 +230,29 @@ def rectangle(ctx):
 
 
 def code():
+    file = open(text, "r")
+    lines = file.readlines()
+    len_lines = len(lines)
+    print(len_lines)
+
     penSetting(a.pos()[0] - 500, a.pos()[1])
     a.fillcolor('black')
     a.begin_fill()
     a.right(90)
-    a.forward(300)
+    a.forward(len_lines*30)
     a.left(90)
     a.forward(300)
     a.left(90)
-    a.forward(300)
+    a.forward(len_lines*30)
     a.left(90)
     a.forward(300)
     a.end_fill()
 
     a.color('white')
     penSetting(a.pos()[0] + 20, a.pos()[1] - 40)
+    a.write('>> RUBY CODE: ', font=("Arial", 10, "bold"))
+    penSetting(a.pos()[0], a.pos()[1] - 40)
 
-    file = open(text, "r")
-    lines = file.readlines()
-    len_lines = len(lines)
-    print(len_lines)
     for i in range(0, len_lines):
         print(lines[i])
         a.write(lines[i], font=("Arial", 9, "bold"))
@@ -264,3 +282,4 @@ def diamond(ctx):
     a.color("black")
     a.write("¿ " + ctx.getText() + " ?", move=False, align='center', font=("Arial", 9, "bold"))
     penSetting(a.pos()[0], a.pos()[1] - 22)
+
